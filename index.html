@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honi Home | Proyecto de Grado - Diseño Visual</title>
+    <meta name="description"
+        content="Honi Home: Plataforma digital de e-commerce enfocada en productos para el hogar. Estrategia de negocio, análisis de mercado y modelo canvas.">
+
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #161616;
+            --bg-card-hover: #1c1c1c;
+            --accent-orange: #FF6600;
+            --accent-orange-dim: rgba(255, 102, 0, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-orange: linear-gradient(135deg, #FF6600 0%, #FF8533 100%);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-orange);
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Header & Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+        }
+
+        .brand-name {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .brand-name span {
+            color: var(--accent-orange);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(255, 102, 0, 0.05) 0%, transparent 70%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: var(--accent-orange);
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .hero-content p {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .badge {
+            background: var(--accent-orange-dim);
+            color: var(--accent-orange);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 102, 0, 0.3);
+        }
+
+        /* --- Identity Section --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+        }
+
+        .card-icon {
+            color: var(--accent-orange);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* --- Problem & Solution --- */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .section-tag {
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .list-item i {
+            color: var(--accent-orange);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        /* --- Charts Section --- */
+        .chart-container {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 32px;
+            border: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        .chart-wrapper {
+            height: 400px;
+            width: 100%;
+        }
+
+        /* --- Model Canvas --- */
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-auto-rows: minmax(150px, auto);
+            gap: 10px;
+            background: var(--border-color);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .canvas-item {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .canvas-item h4 {
+            font-size: 0.8rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .canvas-item p {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .socios {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .actividades {
+            grid-column: span 2;
+        }
+
+        .recursos {
+            grid-column: span 2;
+        }
+
+        .propuesta {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .relaciones {
+            grid-column: span 2;
+        }
+
+        .canales {
+            grid-column: span 2;
+        }
+
+        .segmentos {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .costos {
+            grid-column: span 5;
+        }
+
+        .ingresos {
+            grid-column: span 5;
+        }
+
+        /* --- Phases Timeline --- */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            left: -2.4rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-dark);
+            border: 2px solid var(--accent-orange);
+            border-radius: 50%;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(to top, var(--accent-orange-dim), transparent);
+        }
+
+        .cta-button {
+            background: var(--gradient-orange);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            transition: transform 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 968px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .canvas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .socios,
+            .actividades,
+            .recursos,
+            .propuesta,
+            .relaciones,
+            .canales,
+            .segmentos,
+            .costos,
+            .ingresos {
+                grid-column: span 1;
+                grid-row: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo-box">
+                <!-- Por favor asegúrate que tu logo se llame logo.png en la misma carpeta -->
+                <img src="logo.png" alt="Honi Home Logo" class="logo-img"
+                    onerror="this.src='https://via.placeholder.com/40/FF6600/FFFFFF?text=H'">
+                <div class="brand-name">Honi<span>Home</span></div>
+            </div>
+            <div class="badge">Propuesta Digital 2026</div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <div class="badge">Lo que buscas, cuando lo necesitas.</div>
+            <h1>Compra fácil.<br>Compra todo.</h1>
+            <p>Una plataforma especializada de e-commerce diseñada para transformar el mercado del hogar en Colombia con
+                eficiencia, estilo y cercanía.</p>
+        </div>
+    </header>
+
+    <!-- Concept Section -->
+    <section id="concepto">
+        <div class="container">
+            <span class="section-tag">Identidad de Marca</span>
+            <h2 class="section-title">¿Qué es Honi Home?</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <i data-lucide="home" class="card-icon"></i>
+                    <h3>Concepto Honi</h3>
+                    <p>“Honi” proviene de su similitud con “Honey”, evocando dulzura y la esencia de un hogar cálido.
+                        Buscamos transmitir confianza y una relación genuina con el usuario.</p>
+                </div>
+                <div class="card">
+                    <i data-lucide="zap" class="card-icon"></i>
+                    <h3>Naranja Estratégico</h3>
+                    <p>Inspirado en gigantes como Temu, el naranja comunica dinamismo y modernidad, posicionándonos como
+                        una marca digital joven, accesible y vibrante.</p>
+                </div>
+                <div class="card">
+                    <i data-lucide="package" class="card-icon"></i>
+                    <h3>Modelo Dropshipping</h3>
+                    <p>Iniciamos con inventario cero para validar productos de alta rotación, asegurando una inversión
+                        inteligente y escalabilidad progresiva.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem & Solution Section -->
+    <section>
+        <div class="container split-section">
+            <div>
+                <span class="section-tag">El Problema</span>
+                <h2 class="section-title">Desafíos Actuales</h2>
+                <div class="list-item">
+                    <i data-lucide="alert-circle" size="20"></i>
+                    <p>Saturación de marketplaces genéricos sin alma.</p>
+                </div>
+                <div class="list-item">
+                    <i data-lucide="alert-circle" size="20"></i>
+                    <p>Falta de especialización crítica en nicho de hogar.</p>
+                </div>
+                <div class="list-item">
+                    <i data-lucide="alert-circle" size="20"></i>
+                    <p>Desconfianza en logística y tiempos de entrega.</p>
+                </div>
+                <div class="list-item">
+                    <i data-lucide="alert-circle" size="20"></i>
+                    <p>Riesgo financiero por inversión en stock no validado.</p>
+                </div>
+            </div>
+            <div
+                style="background: var(--bg-card); padding: 3rem; border-radius: 32px; border: 1px solid var(--border-color);">
+                <span class="section-tag">La Solución</span>
+                <h2 class="section-title">Nuestra Propuesta</h2>
+                <div class="list-item">
+                    <i data-lucide="check-circle" size="20"></i>
+                    <p>Enfoque 100% exclusivo en artículos para el hogar.</p>
+                </div>
+                <div class="list-item">
+                    <i data-lucide="check-circle" size="20"></i>
+                    <p>Validación ágil mediante modelo Dropshipping.</p>
+                </div>
+                <div class="list-item">
+                    <i data-lucide="check-circle" size="20"></i>
+                    <p>Comunicación transparente y seguimiento real.</p>
+                </div>
+                <div class="list-item">
+                    <i data-lucide="check-circle" size="20"></i>
+                    <p>Plataformas digitales (Shopify + Dropi) de alto rendimiento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Analysis Section (Charts) -->
+    <section>
+        <div class="container">
+            <span class="section-tag">Análisis Estratégico</span>
+            <h2 class="section-title">Océano Rojo: El Escenario Actual</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Comparativa de rendimiento frente a
+                competidores directos e indirectos.</p>
+
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="redOceanChart"></canvas>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 5rem;">Océano Azul: Diferenciación Estratégica</h2>
+            <div class="chart-container" style="border-color: var(--accent-orange);">
+                <div class="chart-wrapper">
+                    <canvas id="blueOceanChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Phases & Execution -->
+    <section>
+        <div class="container split-section">
+            <div>
+                <span class="section-tag">Hoja de Ruta</span>
+                <h2 class="section-title">Fases del Proyecto</h2>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <h3>Fase 1: Ideación y Validación</h3>
+                        <p>Análisis de mercado profundo, definición de buyer persona y selección curada de catálogo
+                            inicial.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <h3>Fase 2: Desarrollo e Infraestructura</h3>
+                        <p>Despliegue de tienda en Shopify, vinculación con pasarelas de pago y configuración de
+                            logística.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <h3>Fase 3: Lanzamiento y Tracción</h3>
+                        <p>Ejecución de campañas de marketing viral en redes sociales y optimización de conversión.</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="section-tag">Detalle Técnico</span>
+                <h2 class="section-title">Ejecución de Desarrollo</h2>
+                <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+                    <p><strong>Logística:</strong> Creación de cuenta en Dropi para gestión de proveedores de confianza.
+                    </p>
+                </div>
+                <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+                    <p><strong>Plataforma:</strong> Desarrollo frontend y backend sobre Shopify para estabilidad total.
+                    </p>
+                </div>
+                <div class="card" style="margin-bottom: 1rem; padding: 1.5rem;">
+                    <p><strong>Finanzas:</strong> Integración de pasarelas con cobro contra-entrega y pagos digitales.
+                    </p>
+                </div>
+                <div class="card" style="padding: 1.5rem;">
+                    <p><strong>Marketing:</strong> Producción de contenido audiovisual dinámico para TikTok e Instagram
+                        Ads.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Canvas -->
+    <section>
+        <div class="container">
+            <span class="section-tag">Estructura de Negocio</span>
+            <h2 class="section-title">Business Model Canvas</h2>
+
+            <div class="canvas-grid">
+                <div class="canvas-item socios">
+                    <h4>Socios Clave</h4>
+                    <p>• Proveedores en Dropi<br>• Shopify<br>• Plataformas logísticas
+                        (Servientrega/Interrapidisimo)<br>• Influencers de decoración</p>
+                </div>
+                <div class="canvas-item actividades">
+                    <h4>Actividades Clave</h4>
+                    <p>• Curaduría de productos<br>• Gestión de pauta digital<br>• Atención al cliente</p>
+                </div>
+                <div class="canvas-item propuesta">
+                    <h4>Propuesta de Valor</h4>
+                    <p>Productos para el hogar accesibles, modernos y funcionales, con una experiencia de compra
+                        cercana, rápida y 100% digital.</p>
+                </div>
+                <div class="canvas-item relaciones">
+                    <h4>Relación con Clientes</h4>
+                    <p>• Seguimiento postventa digital<br>• Comunidad en redes sociales<br>• Soporte personalizado</p>
+                </div>
+                <div class="canvas-item segmentos">
+                    <h4>Segmentos de Clientes</h4>
+                    <p>Personas interesadas en mejorar, decorar y tecnificar su hogar, buscando practicidad y buen gusto
+                        a precios competitivos.</p>
+                </div>
+                <div class="canvas-item recursos">
+                    <h4>Recursos Clave</h4>
+                    <p>• Tienda Shopify<br>• Base de datos de proveedores<br>• Activos digitales (Videos/Fotos)</p>
+                </div>
+                <div class="canvas-item canales">
+                    <h4>Canales</h4>
+                    <p>• Tienda online oficial<br>• Instagram Shopping<br>• TikTok Ads<br>• WhatsApp Business</p>
+                </div>
+                <div class="canvas-item costos">
+                    <h4>Estructura de Costos</h4>
+                    <p>• Suscripción Shopify<br>• Inversión en Ads (Meta/TikTok)<br>• Costo de adquisición de clientes
+                        (CAC)</p>
+                </div>
+                <div class="canvas-item ingresos">
+                    <h4>Fuentes de Ingreso</h4>
+                    <p>• Venta directa de productos (Margen sobre dropshipping)<br>• Up-selling en accesorios para el
+                        hogar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2 class="section-title">Honi Home: El futuro del hogar digital</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Un proyecto con viabilidad
+                validada, enfoque tecnológico y un potencial de crecimiento exponencial en el mercado nacional.</p>
+            <a href="#" class="cta-button">Visualizar Documentación de Proyecto</a>
+            <div style="margin-top: 4rem; font-size: 0.8rem; color: #444;">&copy; 2026 Honi Home - Trabajo de Grado -
+                Diseño Visual</div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Chart.js Configuration
+        const ctxRed = document.getElementById('redOceanChart').getContext('2d');
+        const ctxBlue = document.getElementById('blueOceanChart').getContext('2d');
+
+        // Styles for Charts
+        const chartDefaults = {
+            color: '#a0a0a0',
+            borderColor: 'rgba(255,255,255,0.1)',
+            font: { family: 'Outfit' }
+        };
+
+        // Red Ocean Chart
+        new Chart(ctxRed, {
+            type: 'line',
+            data: {
+                labels: ['Tiempo de Entrega', 'Variedad de Productos', 'Experiencia Digital'],
+                datasets: [
+                    {
+                        label: 'Falabella',
+                        data: [70, 60, 65],
+                        borderColor: '#ff0000',
+                        backgroundColor: 'transparent',
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Éxito',
+                        data: [65, 55, 50],
+                        borderColor: '#ffff00',
+                        backgroundColor: 'transparent',
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Shein',
+                        data: [40, 90, 85],
+                        borderColor: '#ffffff',
+                        backgroundColor: 'transparent',
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Honi Home',
+                        data: [100, 95, 100],
+                        borderColor: '#FF6600',
+                        backgroundColor: 'rgba(255, 102, 0, 0.2)',
+                        fill: true,
+                        pointBackgroundColor: '#FF6600',
+                        pointRadius: 6,
+                        borderWidth: 4,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { callback: value => value + '%' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#fff' } }
+                }
+            }
+        });
+
+        // Blue Ocean Chart
+        new Chart(ctxBlue, {
+            type: 'line',
+            data: {
+                labels: ['Variedad', 'Precio accesible', 'Usabilidad / Facilidad de uso'],
+                datasets: [
+                    {
+                        label: 'Falabella',
+                        data: [60, 50, 45],
+                        borderColor: '#ff0000',
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Éxito',
+                        data: [55, 60, 40],
+                        borderColor: '#ffff00',
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Honi Home',
+                        data: [100, 95, 100],
+                        borderColor: '#FF6600',
+                        backgroundColor: 'rgba(255, 102, 0, 0.2)',
+                        fill: true,
+                        pointBackgroundColor: '#FF6600',
+                        pointRadius: 6,
+                        borderWidth: 4,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { callback: value => value + '%' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#fff' } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
